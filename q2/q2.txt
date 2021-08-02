@@ -1,0 +1,23 @@
+Describe how would you create a multi-stage YAML pipeline in Azure DevOps. 
+
+Use case - Deploy an Azure virtual machine (Windows/Linux) where the VM credentials should be fetched from Azure keyvault 
+
+Tool - Terraform/ARM templates together with PowerShell 
+
+Please consider the following requirements. 
+
+Git repo - Azure repo or Github  
+
+Pipeline should be using least possible permission when authenticating with Azure 
+
+Pipeline should be able to fetch secrets from Azure keyvault 
+
+Pipeline should be able to run on both Microsoft and self-hosted agents 
+
+Pipeline should have an approval gate before the deployment 
+
+We would like to see the description for each stage/job/tasks used in the 
+
+
+soutions : 
+

@@ -1,0 +1,4 @@
+Team A has deployed an application to Azure compute service (VM/AKS/App service) available in an Azure subscription. 
+
+They want to make sure this application should be able to access other applications hosted in on-premise (eg: Windows Active Directory/Nexus Repo etc).
+ Present to us a solution or multiple solutions for this scenario. 

@@ -1,0 +1,25 @@
+Team A would like to access a BLOB storage hosted in a different Azure subscription. 
+
+The BLOB storage should not be publicly available. 
+
+Present to us a solution or multiple solutions for this scenario. 
+
+
+Soultion: 
+
+1. IF Team access the Storage from VM .  
+then 
+Create the MSI (managed system identity) and assign the storage reader / contributor role to MSI 
+Assign the MSI to VM 
+
+
+2. IF Team access the Storage account from Application . 
+Then 
+Create the SAS token using IP address for application with control access . 
+provide the sas token inthe application 
+
+
+3. Least security : provide the prirmary key / secondary key to team. 
+
+
+

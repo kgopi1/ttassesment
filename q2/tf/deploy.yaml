@@ -1,0 +1,83 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+trigger:
+  - none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: "statefile"
+  - group: "servicepricipal"
+
+stages:
+  - stage: plan_azureinfra
+    jobs:
+      - job: tfplan_azureinfra
+        steps:
+          # install ther Terraform 
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: "0.13.7"
+          # Terraform init      
+          - task: TerraformTaskV1@0
+            displayName: "Terraform init"
+            inputs:
+              provider: "azurerm"
+              command: "init"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infrastructure/environments/low-demo-subscription/azureinfra"
+              backendServiceArm: "arm-serviceconnection"
+              backendAzureRmResourceGroupName: $(ResourceGroupName)
+              backendAzureRmStorageAccountName: $(StorageAccountName)
+              backendAzureRmContainerName: $(ContainerName)
+              backendAzureRmKey: "azureinfra_dev.tfstate"
+          # Terraform plan 
+          - task: TerraformTaskV1@0
+            displayName: "Terraform Plan"
+            inputs:
+              provider: "azurerm"
+              command: "plan"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infrastructure/environments/low-demo-subscription/azureinfra"
+              backendServiceArm: "devtestot-arm"
+              environmentServiceNameAzureRM: "devtestot-arm"
+
+  - stage: apply_azureinfra
+    dependsOn: plan_azureinfra
+    jobs:
+      - job: tfapply_azureinfra
+      # install the Terraform 
+        steps:
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: "0.13.7"
+       # Terraform init 
+          - task: TerraformTaskV1@0
+            displayName: "Terraform init"
+            inputs:
+              provider: "azurerm"
+              command: "init"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/tf/"
+              backendServiceArm: ""
+              backendAzureRmResourceGroupName: $(ResourceGroupName)
+              backendAzureRmStorageAccountName: $(StorageAccountName)
+              backendAzureRmContainerName: $(ContainerName)
+              backendAzureRmKey: "dev.tfstate"
+       # Terraform Apply        
+          - task: TerraformTaskV1@0
+            displayName: "Terraform Apply"
+            inputs:
+              provider: "azurerm"
+              command: "apply"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/tf"
+              backendServiceArm: "sp-arm"
+            
+
+   
+
+

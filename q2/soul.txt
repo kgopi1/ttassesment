@@ -1,0 +1,13 @@
+Step 1 : Create the Terraform scripts for Key Vault , Key vault sectet , VM . 
+Make sure VM password gets the value for Key vault secret . 
+
+
+Step2 : Create SP with options create-for-rbac .  
+Step3 : Do the Role Assignment in subscription / Resource Group level . 
+Step4 : Creat the ARM Service connection in Azure Devops to using SP created in Step2 
+
+Step5 : Create Pipeline 
+Pipeline should have 2 stages
+1. Stage 1: Terraform plan 
+2. Stege 2 : Terraform Apply . Stage 2 is depends_on success of Stage 1 . 
+    if we need stage approval , we can use the deployment jobs to set environments which inturn sets stage approval. 

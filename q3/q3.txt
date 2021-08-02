@@ -1,0 +1,8 @@
+Create an Azure policy to apply multiple tags only on Azure VMs in a 
+resource group and describe how would you assign the policy on management group. 
+
+1. Create policy defination for requried the controls 
+ controls : 
+  resource_type matches to VM 
+  then apply the mandatory tags. 
+2. create the policy assignment and set the scope to management group . 
